@@ -20,7 +20,7 @@ bool isTimeInitialized = false;
 double initTime;
 constexpr auto kRemovalMargin = haste::app::Tracker::kPatchSizeHalf;
 haste::app::Camera camera;
-const auto stoppingCondition = [&](const haste::app::Tracker& tracker) -> bool {
+const auto stoppingCondition = [](const haste::app::Tracker& tracker) -> bool {
     return !((tracker.x() >= kRemovalMargin) && (tracker.y() >= kRemovalMargin)
                 && ((tracker.x() + kRemovalMargin) < camera.width) && ((tracker.y() + kRemovalMargin) < camera.height));
 };
