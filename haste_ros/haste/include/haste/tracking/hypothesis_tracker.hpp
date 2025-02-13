@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <iostream>
+
 #include <glog/logging.h>
 
 #include "haste/core/event_window.hpp"
@@ -23,7 +25,7 @@ class HypothesisPatchTracker {
   //  As a results, all the resulting states in the tracking would have the same timestamp.
   //  Please rebase the timestamp of the event stream with respect to the first event or set Scalar = double
   //  but then you should a expect a poor(er) computational performance (between 10% and 25% worse).
-  using Scalar = float; // TODO: it could be templated.
+  using Scalar = float;// TODO: it could be templated.
   using HypothesesGenerator = CenteredHypothesesGenerator<IncrementalHypothesesGenerator_TXYR_8neigh_2rot<Scalar>>;
 
   static constexpr auto kNullHypothesisIdx = HypothesesGenerator::kNullHypothesisIdx;
@@ -72,12 +74,12 @@ class HypothesisPatchTracker {
   HypothesisPatchTracker(const Time &t, const Location &x, const Location &y, const Orientation &theta);
 
   template<int N>
-  auto patchLocation(const LocationVector<N> &ex_vec, const LocationVector<N> &ey_vec, const Hypothesis &state) const
-      -> std::pair<LocationVector<N>, LocationVector<N>>;
+  auto patchLocation(const LocationVector<N> &ex_vec, const LocationVector<N> &ey_vec,
+                     const Hypothesis &state) const -> std::pair<LocationVector<N>, LocationVector<N>>;
 
   auto isEventInRange(const Location &ex, const Location &ey) const -> bool;
-  auto patchLocation(const Location &ex, const Location &ey, const Hypothesis &state) const
-      -> std::pair<Location, Location>;
+  auto patchLocation(const Location &ex, const Location &ey,
+                     const Hypothesis &state) const -> std::pair<Location, Location>;
   auto updateTemplateWithMiddleEvent(const Weight &weight) -> void;
   auto eventWindowToModelUnitary(const EventWindow &event_window, const Hypothesis &hypothesis,
                                  const Weight &weight = 1.0) const -> Patch;
@@ -105,10 +107,9 @@ class HypothesisPatchTracker {
   auto tracker_template() const -> const Patch & { return template_; }
   auto event_counter() const -> const size_t & { return event_counter_; }
   auto status() const -> const TrackerStatus & { return status_; }
-  void show_hypothesis_score() {std::cout << hypotheses_score_;}
-  float max_hypothesis_score() {return hypotheses_score_.maxCoeff();}
-  float min_hypothesis_score() {return hypotheses_score_.minCoeff();}
-  
+  void show_hypothesis_score() { std::cout << hypotheses_score_; }
+  float max_hypothesis_score() { return hypotheses_score_.maxCoeff(); }
+  float min_hypothesis_score() { return hypotheses_score_.minCoeff(); }
 
  protected:
   TrackerStatus status_ = kUninitialized;
