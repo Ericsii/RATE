@@ -360,6 +360,7 @@ environments:
       - conda: https://conda.anaconda.org/robostack-staging/linux-64/ros-noetic-geometry-tutorials-0.2.3-py311hb335429_17.tar.bz2
       - conda: https://conda.anaconda.org/robostack-staging/linux-64/ros-noetic-gl-dependency-1.1.2-py311hb335429_17.tar.bz2
       - conda: https://conda.anaconda.org/robostack-staging/linux-64/ros-noetic-image-transport-1.12.0-py311hb335429_17.tar.bz2
+      - conda: https://conda.anaconda.org/robostack-staging/linux-64/ros-noetic-image-view-1.17.0-py311hb335429_17.tar.bz2
       - conda: https://conda.anaconda.org/robostack-staging/linux-64/ros-noetic-interactive-marker-tutorials-0.11.0-py311hb335429_17.tar.bz2
       - conda: https://conda.anaconda.org/robostack-staging/linux-64/ros-noetic-interactive-markers-1.12.0-py311hb335429_17.tar.bz2
       - conda: https://conda.anaconda.org/robostack-staging/linux-64/ros-noetic-joint-state-publisher-1.15.1-py311hb335429_17.tar.bz2
@@ -5254,6 +5255,33 @@ packages:
   license: BSD-3-Clause
   size: 356839
   timestamp: 1706742023630
+- conda: https://conda.anaconda.org/robostack-staging/linux-64/ros-noetic-image-view-1.17.0-py311hb335429_17.tar.bz2
+  sha256: dd404c71c3b4a6e8927c0be506d3559dbe38fb55dab65dddb5272a1c1b79a814
+  md5: 094b5fd8001613c72ab52f78a4aac25f
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc-ng >=12
+  - libgcc-ng >=12
+  - libstdcxx-ng >=12
+  - numpy >=1.23.5,<2.0a0
+  - python
+  - python_abi 3.11.* *_cp311
+  - ros-distro-mutex 0.5.*
+  - ros-distro-mutex 0.5.* noetic
+  - ros-noetic-camera-calibration-parsers
+  - ros-noetic-cv-bridge
+  - ros-noetic-dynamic-reconfigure
+  - ros-noetic-image-transport
+  - ros-noetic-message-filters
+  - ros-noetic-nodelet
+  - ros-noetic-rosconsole
+  - ros-noetic-roscpp
+  - ros-noetic-std-srvs
+  - xorg-libx11 >=1.8.7,<2.0a0
+  - xorg-libxext >=1.3.4,<2.0a0
+  license: BSD-3-Clause
+  size: 413523
+  timestamp: 1706743257341
 - conda: https://conda.anaconda.org/robostack-staging/linux-64/ros-noetic-interactive-marker-tutorials-0.11.0-py311hb335429_17.tar.bz2
   sha256: 60bedfc3c96c4378f65d4d72749c2ac02ff4fa8412a8376095309fa14f3f11c4
   md5: 1beb2815ae428ee2d2372fb527c308ce

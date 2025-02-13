@@ -391,7 +391,9 @@ int main(int argc, char **argv) {
   nh.getParam("/haste_ros/seed_data", seed_data);
   nh.getParam("/haste_ros/calib_file", camera_calib);
   nh.getParam("/haste_ros/best_tracker_func", best_tracker);
-  nh.getParam("/haste_ros/best_tracker_func", track_output_file);
+  nh.getParam("/haste_ros/track_output", track_output_file);
+
+  ROS_INFO("Track output file: %s", track_output_file.c_str());
   track_output.open(track_output_file, std::ios::out);
   if (!track_output.is_open()) {
     ROS_ERROR("Failed to open file: %s", track_output_file.c_str());
