@@ -431,6 +431,7 @@ int main(int argc, char **argv) {
     ros::spinOnce();
   }
 
+  track_output.close();
   // Free memory
   free(base_tracker_distribution);
   free(tracker_distribution);
