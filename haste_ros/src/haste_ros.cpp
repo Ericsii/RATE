@@ -2,6 +2,8 @@
 #include "std_msgs/Float32MultiArray.h"
 #include "std_msgs/String.h"
 #include <dvs_msgs/EventArray.h>
+#include <fstream>
+#include <iomanip>
 #include <ros/ros.h>
 #include <vector>
 
@@ -28,7 +30,9 @@ ros::Publisher haste_pub;
 std_msgs::Float32MultiArray haste_result;
 bool finishTracking = false;
 bool poschange_flg = false;
-std::string camera_size, seed_data, camera_calib, best_tracker;
+std::string camera_size, seed_data, camera_calib, best_tracker,
+    track_output_file;
+std::ofstream track_output;
 unsigned int tracker_id_cnt = 1;
 uint16_t position_id_old = 0, position_id_tmp = 0, position_id_tmp_seed = 0,
          position_id_read_seed = 0;
@@ -129,12 +133,19 @@ void EventMsgCallback(const dvs_msgs::EventArray::ConstPtr &event_msg) {
             continue;
           }
         }
-        ROS_INFO("Tracker ID: %d, Position ID: %d, Tracking_time: %lf, state "
-                 "updated to: {t=%lf, x=%.0lf, y=%.0lf, theta=%lf}",
-                 haste_trackers[itr_haste].tracker_id,
-                 haste_trackers[itr_haste].position_id,
-                 tracker->t() - haste_trackers[itr_haste].track_start_time,
-                 tracker->t(), tracker->x(), tracker->y(), tracker->theta());
+        // ROS_INFO("Tracker ID: %d, Position ID: %d, Tracking_time: %lf, state
+        // "
+        //          "updated to: {t=%lf, x=%.0lf, y=%.0lf, theta=%lf}",
+        //          haste_trackers[itr_haste].tracker_id,
+        //          haste_trackers[itr_haste].position_id,
+        //          tracker->t() - haste_trackers[itr_haste].track_start_time,
+        //          tracker->t(), tracker->x(), tracker->y(), tracker->theta());
+        if (track_output.is_open()) {
+          track_output << haste_trackers[itr_haste].tracker_id << " "
+                       << std::fixed << std::setprecision(6)
+                       << tracker->t() + initTime << " " << tracker->x() << " "
+                       << tracker->y() << std::endl;
+        }
         haste_result.data[0] = haste_trackers[itr_haste].tracker_id; // ID
         haste_result.data[1] = tracker->t();                         // Time
         haste_result.data[2] = tracker->x();                         // x
@@ -380,6 +391,12 @@ int main(int argc, char **argv) {
   nh.getParam("/haste_ros/seed_data", seed_data);
   nh.getParam("/haste_ros/calib_file", camera_calib);
   nh.getParam("/haste_ros/best_tracker_func", best_tracker);
+  nh.getParam("/haste_ros/best_tracker_func", track_output_file);
+  track_output.open(track_output_file, std::ios::out);
+  if (!track_output.is_open()) {
+    ROS_ERROR("Failed to open file: %s", track_output_file.c_str());
+  }
+
   haste_tracker = HasteTracker(camera_size, seed_data, camera_calib);
   camera = haste_tracker.returnCamera();
 
